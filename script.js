@@ -154,25 +154,42 @@ async function readNFC() {
                 detailsHTML += '<p>📝 Nessun record NDEF presente sulla card</p>';
             }
             
-            // Aggiungi dump simulato (Web NFC API non permette lettura diretta dei blocchi)
+            // Sezione dump con soluzioni per lettura blocchi
             detailsHTML += '<hr style="margin: 15px 0; border: none; border-top: 1px solid #ddd;">';
-            detailsHTML += '<p><strong>⚠️ Dump Mifare Classic 1K:</strong></p>';
-            detailsHTML += '<p style="font-size: 0.85em; color: #666;">L\'API Web NFC non supporta la lettura diretta dei blocchi Mifare Classic.</p>';
-            detailsHTML += '<p style="font-size: 0.85em; color: #666;">Per il dump completo, utilizza un lettore ACR122U con software desktop.</p>';
+            detailsHTML += '<p><strong>📋 Dump Mifare Classic 1K:</strong></p>';
             detailsHTML += '<div class="dump-info">';
+            detailsHTML += '<p><strong>⚠️ Limitazioni Web NFC API:</strong></p>';
+            detailsHTML += '<p style="font-size: 0.9em;">L\'API Web NFC standard può leggere solo UID e record NDEF, non i blocchi raw Mifare Classic.</p>';
+            detailsHTML += '<br>';
+            detailsHTML += '<p><strong>✅ Come leggere i blocchi Mifare:</strong></p>';
+            detailsHTML += '<p style="font-size: 0.9em;"><strong>Opzione 1: App Android Nativa</strong></p>';
+            detailsHTML += '<p style="font-size: 0.85em;">Crea un\'app Android che usa <code>android.nfc.tech.MifareClassic</code> con le chiavi calcolate sopra.</p>';
+            detailsHTML += '<br>';
+            detailsHTML += '<p style="font-size: 0.9em;"><strong>Opzione 2: App esistenti (consigliato)</strong></p>';
+            detailsHTML += '<p style="font-size: 0.85em;">• <strong>Mifare Classic Tool (MCT)</strong> - App open source su F-Droid/GitHub</p>';
+            detailsHTML += '<p style="font-size: 0.85em;">• <strong>NFC TagInfo by NXP</strong> - Reader avanzato su Play Store</p>';
+            detailsHTML += '<p style="font-size: 0.85em;">• <strong>NFC Tools PRO</strong> - Con funzioni di dump avanzate</p>';
+            detailsHTML += '<br>';
+            detailsHTML += '<p style="font-size: 0.9em;"><strong>📝 Come usare le chiavi con MCT:</strong></p>';
+            detailsHTML += '<p style="font-size: 0.85em;">1. Installa Mifare Classic Tool</p>';
+            detailsHTML += '<p style="font-size: 0.85em;">2. Vai in "Edit or Add Key File"</p>';
+            detailsHTML += `<p style="font-size: 0.85em;">3. Aggiungi Key A: <code>${bytesToHex(keyA)}</code></p>`;
+            detailsHTML += `<p style="font-size: 0.85em;">4. Aggiungi Key B: <code>${bytesToHex(keyB)}</code></p>`;
+            detailsHTML += '<p style="font-size: 0.85em;">5. Usa "Read Tag" per fare il dump completo</p>';
+            detailsHTML += '<br>';
             detailsHTML += `<p><strong>Struttura Mifare Classic 1K:</strong></p>`;
-            detailsHTML += `<p>• 16 Settori (0-15)</p>`;
-            detailsHTML += `<p>• 4 Blocchi per settore (64 totali)</p>`;
-            detailsHTML += `<p>• 16 byte per blocco</p>`;
-            detailsHTML += `<p>• Blocco 4: Credito corrente (Microel)</p>`;
-            detailsHTML += `<p>• Blocco 5: Credito precedente (Microel)</p>`;
+            detailsHTML += `<p style="font-size: 0.85em;">• 16 Settori (0-15) con 4 blocchi ciascuno = 64 blocchi totali</p>`;
+            detailsHTML += `<p style="font-size: 0.85em;">• 16 byte per blocco = 1024 byte totali (1K)</p>`;
+            detailsHTML += `<p style="font-size: 0.85em;"><strong>• Blocco 4:</strong> Credito corrente (Microel)</p>`;
+            detailsHTML += `<p style="font-size: 0.85em;"><strong>• Blocco 5:</strong> Credito precedente (Microel)</p>`;
+            detailsHTML += `<p style="font-size: 0.85em;"><strong>• Blocco 6:</strong> Dati credito aggiuntivi</p>`;
             detailsHTML += '</div>';
             
             detailsDiv.innerHTML = detailsHTML;
             
             // Mostra i risultati
             resultDiv.classList.remove('hidden');
-            showStatus('✅ Card letta con successo!', 'success');
+            showStatus('✅ Card letta - Usa le chiavi con Mifare Classic Tool (MCT)', 'success');
             
             // Riabilita il bottone
             readBtn.disabled = false;

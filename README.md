@@ -53,15 +53,41 @@ Per testare localmente:
    ```
    Poi apri `http://localhost:8000` sul tuo dispositivo Android
 
-## ⚠️ Limitazioni
+## ⚠️ Limitazioni e Soluzioni
 
+### Limitazioni Web NFC API
 - L'API Web NFC può leggere solo l'UID e i record NDEF
 - **Non è possibile leggere i blocchi Mifare Classic direttamente da browser**
-- Per card Mifare Classic 1K, l'UID è sempre leggibile
-- Per il dump completo dei blocchi, è necessario utilizzare:
-  - Hardware: Lettore ACR122U o Proxmark3
-  - Software: `libnfc`, `mfoc`, `mfcuk` o l'applicazione Microel originale
-- Le chiavi calcolate sono corrette ma la lettura dei blocchi richiede software nativo
+- Questa è una limitazione del W3C Web NFC standard, non un bug
+
+### ✅ Come Leggere i Blocchi Mifare
+
+#### Opzione 1: App Android (Consigliato)
+Usa **Mifare Classic Tool (MCT)** - App open source per Android:
+
+1. Installa da [F-Droid](https://f-droid.org/packages/de.syss.MifareClassicTool/) o [GitHub](https://github.com/ikarus23/MifareClassicTool)
+2. Leggi l'UID con questo sito web per ottenere le chiavi
+3. In MCT vai su "Edit or Add Key File" 
+4. Aggiungi le chiavi Key A e Key B mostrate dal sito
+5. Usa "Read Tag" per il dump completo della card
+
+#### Opzione 2: Altre App Android
+- **NFC TagInfo by NXP** - Reader avanzato gratuito
+- **NFC Tools PRO** - A pagamento ma con molte funzionalità
+
+#### Opzione 3: Hardware Dedicato
+- **Proxmark3** - Il più potente per ricerca e analisi
+- **Chameleon Mini** - Emulatore e clonatore
+- **ACR122U** + libnfc - Per uso con PC/Linux
+
+### 🎯 Workflow Consigliato
+
+1. **Usa questo sito** per leggere UID e generare le chiavi Microel
+2. **Copia le chiavi** mostrate (Key A e Key B)
+3. **Apri Mifare Classic Tool** sul tuo Android
+4. **Importa le chiavi** nel key file
+5. **Leggi la card** per ottenere il dump completo
+6. **Modifica i blocchi** (es. Blocco 4 e 5 per il credito Microel)
 
 ## 📊 Struttura Mifare Classic 1K
 
