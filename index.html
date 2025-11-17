@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mifare Reader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔖 Mifare Classic 1K Reader</h1>
+        
+        <div class="info-box">
+            <p>Questo tool permette di leggere l'UID di card Mifare Classic 1K utilizzando l'API Web NFC di Chrome.</p>
+            <p><strong>Requisiti:</strong> Chrome/Edge su Android con NFC abilitato</p>
+        </div>
+
+        <button id="readBtn" class="read-btn">📖 Leggi Card</button>
+        
+        <div id="status" class="status"></div>
+        
+        <div id="result" class="result hidden">
+            <h2>UID della Card:</h2>
+            <div id="uid" class="uid-display"></div>
+            <div id="details" class="details"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
