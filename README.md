@@ -1,13 +1,25 @@
 # Mifare Classic 1K Reader
 
-Un'applicazione web semplice per leggere l'UID di card Mifare Classic 1K utilizzando l'API Web NFC di Chrome.
+Un'applicazione web semplice per leggere l'UID di card Mifare Classic 1K utilizzando l'API Web NFC di Chrome, con calcolo automatico delle chiavi Microel.
 
 ## 🎯 Funzionalità
 
 - Lettura dell'UID di card Mifare Classic 1K
+- **Calcolo automatico delle chiavi Microel (Key A e Key B)**
 - Visualizzazione dell'UID in formato esadecimale
 - Interfaccia utente semplice e intuitiva
 - Informazioni dettagliate sulla card letta
+- Informazioni sulla struttura Mifare Classic 1K
+
+## 🔐 Algoritmo Microel
+
+L'applicazione implementa l'algoritmo proprietario Microel per la generazione delle chiavi di autenticazione:
+
+1. **calcolaSommaHex(uid)**: Calcola una somma hash dall'UID usando XOR con chiave specifica
+2. **generaKeyA(uid)**: Genera la Key A dall'UID basandosi sul primo nibble del hash
+3. **generaKeyB(keyA)**: Genera la Key B facendo XOR della Key A con 0xFF
+
+Queste chiavi permettono di autenticarsi sui settori della card Microel per leggere/scrivere i dati del credito.
 
 ## 📋 Requisiti
 
@@ -43,9 +55,23 @@ Per testare localmente:
 
 ## ⚠️ Limitazioni
 
-- L'API Web NFC può leggere solo card che supportano NDEF
+- L'API Web NFC può leggere solo l'UID e i record NDEF
+- **Non è possibile leggere i blocchi Mifare Classic direttamente da browser**
 - Per card Mifare Classic 1K, l'UID è sempre leggibile
-- Non tutte le operazioni di lettura/scrittura sono supportate dall'API Web NFC
+- Per il dump completo dei blocchi, è necessario utilizzare:
+  - Hardware: Lettore ACR122U o Proxmark3
+  - Software: `libnfc`, `mfoc`, `mfcuk` o l'applicazione Microel originale
+- Le chiavi calcolate sono corrette ma la lettura dei blocchi richiede software nativo
+
+## 📊 Struttura Mifare Classic 1K
+
+- **16 Settori** (0-15)
+- **4 Blocchi per settore** (64 blocchi totali)
+- **16 byte per blocco**
+- **Blocchi Microel specifici:**
+  - Blocco 4: Credito corrente
+  - Blocco 5: Credito precedente
+  - Blocco 6: Dati credito aggiuntivi
 
 ## 📄 Licenza
 

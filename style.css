@@ -148,6 +148,25 @@ h1 {
     margin: 8px 0;
 }
 
+.details hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.dump-info {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border-left: 3px solid #667eea;
+}
+
+.dump-info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
 @media (max-width: 600px) {
     .container {
         padding: 25px;
